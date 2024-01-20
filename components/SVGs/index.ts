@@ -1,3 +1,6 @@
 export { Excavator } from './Excavator'
 export { ExcavatorLogo } from './ExcavatorLogo'
 export { Burger } from './Burger'
+export { GoogleMaps } from './GoogleMaps'
+export { Phone } from './Phone'
+export { Email } from './Email'

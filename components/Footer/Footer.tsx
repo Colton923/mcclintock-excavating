@@ -1,5 +1,6 @@
 import * as stylex from '@stylexjs/stylex'
 import { colorTokens } from '../../styles/colorTokens.stylex'
+import { A } from '../UI/A/A'
 
 type FooterProps = {}
 
@@ -9,10 +10,18 @@ const Footer = () => {
       <div {...stylex.props(styles.base)}>
         <div {...stylex.props(styles.navBase)}>
           <div {...stylex.props(styles.navItems)}>
-            <span {...stylex.props(styles.navItem)}>About</span>
-            <span {...stylex.props(styles.navItem)}>Projects</span>
-            <span {...stylex.props(styles.navItem)}>Careers</span>
-            <span {...stylex.props(styles.navItem)}>Contact</span>
+            <A href="/about">
+              <span {...stylex.props(styles.navItem)}>About</span>
+            </A>
+            <A href="/projects">
+              <span {...stylex.props(styles.navItem)}>Projects</span>
+            </A>
+            <A href="/contact">
+              <span {...stylex.props(styles.navItem)}>Careers</span>
+            </A>
+            <A href="/contact">
+              <span {...stylex.props(styles.navItem)}>Contact</span>
+            </A>
           </div>
         </div>
       </div>

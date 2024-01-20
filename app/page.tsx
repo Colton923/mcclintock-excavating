@@ -49,8 +49,8 @@ export default function Page() {
           </div>
           <div {...stylex.props(styles.flexItem)}>
             <Text variant="md" style={styles.flexText}>
-              We are family owned and operated tradesmen servicing the Quad City Area
-              in Plumbing, Excavating and Trucking.
+              We are family owned and operated. Expert tradesmen serving the Quad
+              Cities in plumbing, excavating and trucking.
             </Text>
             <div {...stylex.props(styles.spaceFlex)}>
               <Text variant="sm" uppercase style={styles.flexText}>
