@@ -247,6 +247,7 @@ const styles = stylex.create({
     width: '100%',
     height: '100%',
     maxWidth: '1200px',
+    overflowX: 'hidden',
   },
   cardImg1: (imgSrc) => ({
     width: {
