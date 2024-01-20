@@ -47,6 +47,7 @@ const styles = stylex.create({
     zIndex: -1,
     minHeight: '100vh',
     minWidth: '100vw',
+    overflowX: 'hidden',
   },
   main: {
     display: 'flex',
@@ -58,6 +59,5 @@ const styles = stylex.create({
       [MAX_WIDTH]: '100vw',
     },
     width: '100%',
-    overflowX: 'hidden',
   },
 })
