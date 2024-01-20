@@ -5,6 +5,8 @@ import { colorTokens } from '../../styles/colorTokens.stylex'
 import { Burger, Excavator } from '../SVGs'
 import { Button } from '../UI/Button/Button'
 import { Text } from '../UI/Text/Text'
+import { usePathname } from 'next/navigation'
+import { A } from '../UI/A/A'
 type NavbarProps = {}
 
 const Navbar = () => {
@@ -12,7 +14,7 @@ const Navbar = () => {
   const [scrollY, setScrollY] = useState(0)
   const [mobileDrawer, setMobileDrawer] = useState(false)
   const [overlay, setOverlay] = useState(false)
-
+  const pathname = usePathname()
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY)
@@ -61,10 +63,56 @@ const Navbar = () => {
             <div {...stylex.props(styles.divider)} />
           </div>
           <div {...stylex.props(styles.navItems)}>
-            <span {...stylex.props(styles.navItem)}>About</span>
-            <span {...stylex.props(styles.navItem)}>Our Work</span>
-            <span {...stylex.props(styles.navItem)}>Careers</span>
-            <span {...stylex.props(styles.navItem)}>Contact</span>
+            <A href="/">
+              <span
+                {...stylex.props(
+                  styles.navItem,
+                  pathname.includes('/') && styles.navItemActive
+                )}
+              >
+                Home
+              </span>
+            </A>
+            <A href="/about">
+              <span
+                {...stylex.props(
+                  styles.navItem,
+                  pathname.includes('/about') && styles.navItemActive
+                )}
+              >
+                About
+              </span>
+            </A>
+            <A href="/projects">
+              <span
+                {...stylex.props(
+                  styles.navItem,
+                  pathname.includes('/projects') && styles.navItemActive
+                )}
+              >
+                Projects
+              </span>
+            </A>
+            <A href="/careers">
+              <span
+                {...stylex.props(
+                  styles.navItem,
+                  pathname.includes('/careers') && styles.navItemActive
+                )}
+              >
+                Careers
+              </span>
+            </A>
+            <A href="/contact">
+              <span
+                {...stylex.props(
+                  styles.navItem,
+                  pathname.includes('/contact') && styles.navItemActive
+                )}
+              >
+                Contact
+              </span>
+            </A>
           </div>
         </div>
         <div {...stylex.props(styles.displayMobileOnly)}>
@@ -117,26 +165,61 @@ const Navbar = () => {
               </svg>
             </Button>
           </div>
-          <Button size={'lg'} style={styles.drawerNavItem}>
-            <Text variant="md" uppercase>
-              About
-            </Text>
-          </Button>
-          <Button size={'lg'} style={styles.drawerNavItem}>
-            <Text variant="md" uppercase>
-              Projects
-            </Text>
-          </Button>
-          <Button size={'lg'} style={styles.drawerNavItem}>
-            <Text variant="md" uppercase>
-              Careers
-            </Text>
-          </Button>
-          <Button size={'lg'} style={styles.drawerNavItem}>
-            <Text variant="md" uppercase>
-              Contact
-            </Text>
-          </Button>
+          <A href="/">
+            <Button
+              size={'lg'}
+              style={styles.drawerNavItem}
+              onClick={handleCollapse}
+            >
+              <Text variant="md" uppercase>
+                Home
+              </Text>
+            </Button>
+          </A>
+          <A href="/about">
+            <Button
+              size={'lg'}
+              style={styles.drawerNavItem}
+              onClick={handleCollapse}
+            >
+              <Text variant="md" uppercase>
+                About
+              </Text>
+            </Button>
+          </A>
+          <A href="/projects">
+            <Button
+              size={'lg'}
+              style={styles.drawerNavItem}
+              onClick={handleCollapse}
+            >
+              <Text variant="md" uppercase>
+                Projects
+              </Text>
+            </Button>
+          </A>
+          <A href="/careers">
+            <Button
+              size={'lg'}
+              style={styles.drawerNavItem}
+              onClick={handleCollapse}
+            >
+              <Text variant="md" uppercase>
+                Careers
+              </Text>
+            </Button>
+          </A>
+          <A href="/contact">
+            <Button
+              size={'lg'}
+              style={styles.drawerNavItem}
+              onClick={handleCollapse}
+            >
+              <Text variant="md" uppercase>
+                Contact
+              </Text>
+            </Button>
+          </A>
         </div>
       </div>
     </div>
@@ -258,24 +341,27 @@ const styles = stylex.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
+  navItemActive: {
+    backgroundColor: colorTokens.primary_red_dark2,
+    color: colorTokens.white0,
+  },
   navItem: {
     backgroundColor: {
-      default: colorTokens.white0,
+      default: 'rgba(255,255,255,0.3)',
       ':hover': colorTokens.primary_red_dark2,
     },
     color: {
-      default: 'rgba(0,0,0,0.9)',
+      default: colorTokens.primary_red_dark2,
       ':hover': 'rgba(255,255,255,1)',
     },
-    borderTopColor: 'rgba(255,255,255,0.3)',
-    borderTopStyle: 'solid',
-    borderTopWidth: '1px',
     fontSize: '1rem',
-    fontWeight: 700,
+    fontWeight: 600,
     textTransform: 'uppercase',
-    padding: '0 1rem',
+    padding: '0.1rem 1rem',
     margin: '0 1rem',
     cursor: 'pointer',
+    borderBottomRightRadius: '5px',
+    borderBottomLeftRadius: '5px',
   },
   hidden: {
     display: 'none',

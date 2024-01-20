@@ -34,7 +34,7 @@ export default function Page() {
             </Button>
             <Button size="lg-compact">
               <Text variant="sm" uppercase>
-                Our Work
+                Projects
               </Text>
             </Button>
           </div>

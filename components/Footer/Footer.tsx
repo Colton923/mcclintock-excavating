@@ -10,7 +10,7 @@ const Footer = () => {
         <div {...stylex.props(styles.navBase)}>
           <div {...stylex.props(styles.navItems)}>
             <span {...stylex.props(styles.navItem)}>About</span>
-            <span {...stylex.props(styles.navItem)}>Our Work</span>
+            <span {...stylex.props(styles.navItem)}>Projects</span>
             <span {...stylex.props(styles.navItem)}>Careers</span>
             <span {...stylex.props(styles.navItem)}>Contact</span>
           </div>
