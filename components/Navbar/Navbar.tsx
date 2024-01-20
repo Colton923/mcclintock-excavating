@@ -3,11 +3,15 @@ import * as stylex from '@stylexjs/stylex'
 import { useState, useEffect } from 'react'
 import { colorTokens } from '../../styles/colorTokens.stylex'
 import { Burger, Excavator } from '../SVGs'
+import { Button } from '../UI/Button/Button'
+import { Text } from '../UI/Text/Text'
 type NavbarProps = {}
 
 const Navbar = () => {
   const [collapsed, setCollapsed] = useState(false)
   const [scrollY, setScrollY] = useState(0)
+  const [mobileDrawer, setMobileDrawer] = useState(false)
+  const [overlay, setOverlay] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,7 +26,15 @@ const Navbar = () => {
   }, [])
 
   const handleCollapse = () => {
-    setCollapsed(!collapsed)
+    if (mobileDrawer) {
+      setOverlay(true)
+      setTimeout(() => {
+        setMobileDrawer(false)
+      }, 1000)
+    } else {
+      setMobileDrawer(true)
+      setOverlay(false)
+    }
   }
 
   useEffect(() => {
@@ -55,12 +67,77 @@ const Navbar = () => {
             <span {...stylex.props(styles.navItem)}>Contact</span>
           </div>
         </div>
-        <div {...stylex.props(styles.navBurger)}>
-          <Burger stroke={'rgba(255,255,255,.5'} />
+        <div {...stylex.props(styles.displayMobileOnly)}>
+          <Button
+            onClick={handleCollapse}
+            size={'md-compact'}
+            style={styles.navBurger}
+          >
+            <Burger stroke={'rgba(255,255,255,.5'} width="100%" height="100%" />
+          </Button>
         </div>
       </div>
       <div {...stylex.props(styles.logoTagPosition)}>
-        <span {...stylex.props(styles.logoTag)}>McClintock</span>
+        <Text variant="xxs" uppercase style={styles.logoTagPosition}>
+          McClintock
+        </Text>
+      </div>
+      <div
+        {...stylex.props(
+          mobileDrawer && styles.fullScreenNav,
+          styles.displayMobileOnly,
+          !mobileDrawer && styles.hidden,
+          overlay && styles.slideOut
+        )}
+      >
+        <div {...stylex.props(styles.drawerNavItems)}>
+          <div {...stylex.props(styles.closeWrapper)}>
+            <Button onClick={handleCollapse} size={'xs-compact'}>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                {...stylex.props(styles.close)}
+              >
+                <path
+                  d="M19 6L6 19"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M6 6L19 19"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Button>
+          </div>
+          <Button size={'lg'} style={styles.drawerNavItem}>
+            <Text variant="md" uppercase>
+              About
+            </Text>
+          </Button>
+          <Button size={'lg'} style={styles.drawerNavItem}>
+            <Text variant="md" uppercase>
+              Projects
+            </Text>
+          </Button>
+          <Button size={'lg'} style={styles.drawerNavItem}>
+            <Text variant="md" uppercase>
+              Careers
+            </Text>
+          </Button>
+          <Button size={'lg'} style={styles.drawerNavItem}>
+            <Text variant="md" uppercase>
+              Contact
+            </Text>
+          </Button>
+        </div>
       </div>
     </div>
   )
@@ -76,12 +153,19 @@ const NavbarTransition = stylex.keyframes({
   '0%': {
     transform: 'translateY(0%)',
   },
-  '50%': {
-    transform: 'translateY(-200%)',
-  },
   '100%': {
     transform: 'translateY(-200%)',
     display: 'none',
+  },
+})
+
+const NavbarTransition2 = stylex.keyframes({
+  '0%': {
+    transform: 'translateY(-200%)',
+    display: 'none',
+  },
+  '100%': {
+    transform: 'translateY(0%)',
   },
 })
 
@@ -109,12 +193,6 @@ const styles = stylex.create({
     alignItems: 'center',
   },
   logoTag: {
-    color: 'rgba(255,255,255,1)',
-    fontSize: '.8rem',
-    padding: '.1rem',
-    fontWeight: 700,
-    textTransform: 'uppercase',
-    backgroundColor: colorTokens.primary_red_dark2,
     position: 'relative',
   },
   base: {
@@ -130,6 +208,16 @@ const styles = stylex.create({
     borderBottomColor: 'rgba(255,255,255,0.3)',
     borderBottomWidth: '1px',
     borderBottomStyle: 'solid',
+    animationName: NavbarTransition2,
+    animationDuration: '1s',
+    animationTimingFunction: 'ease',
+    animationFillMode: 'forwards',
+  },
+  slideIn: {
+    animationName: NavbarTransition2,
+    animationDuration: '1s',
+    animationTimingFunction: 'ease',
+    animationFillMode: 'forwards',
   },
   slideOut: {
     animationName: NavbarTransition,
@@ -189,18 +277,63 @@ const styles = stylex.create({
     margin: '0 1rem',
     cursor: 'pointer',
   },
-  navBurger: {
+  hidden: {
+    display: 'none',
+  },
+  displayMobileOnly: {
     display: {
       [MOBILE]: 'flex',
       [DESKTOP]: 'none',
     },
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '30px',
-    height: '30px',
+  },
+  navBurger: {
     cursor: 'pointer',
-    marginRight: '20px',
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderWidth: '0px',
+    borderRadius: '0px',
+    boxShadow: 'none',
+  },
+  fullScreenNav: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: colorTokens.white0,
+    zIndex: 100,
+    overflow: 'hidden',
+    animationName: NavbarTransition2,
+    animationDuration: '1s',
+    animationTimingFunction: 'ease',
+    animationFillMode: 'forwards',
+  },
+  drawerNavItems: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  drawerNavItem: {
+    margin: '1rem',
+    cursor: 'pointer',
+  },
+  closeWrapper: {
+    position: 'absolute',
+    top: '20px',
+    right: '20px',
+  },
+  close: {
+    fill: {
+      default: 'rgba(0,0,0,0.9)',
+      ':hover': 'rgba(255,255,255,1)',
+    },
   },
 })
 

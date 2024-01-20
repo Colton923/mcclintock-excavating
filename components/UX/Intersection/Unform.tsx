@@ -45,13 +45,13 @@ const Unform = ({ children, translatedY, translatedX }: Props) => {
 
 const styles = stylex.create({
   default: {
-    transition: 'transform 1s ease-in-out',
-    transitionDelay: '1.5s',
+    transition: 'transform .8s ease-in-out',
+    transitionDelay: '1s',
   },
   Unform: (translatedY: number, translatedX: number) => ({
     transform: `translate(${translatedX}px, ${translatedY}px)`,
-    transition: 'transform 1s ease-in-out',
-    transitionDelay: '1.5s',
+    transition: 'transform .8s ease-in-out',
+    transitionDelay: '1s',
   }),
 })
 

@@ -9,54 +9,54 @@ import { colorTokens } from '../../../styles/colorTokens.stylex'
 
 export type TextProps = {
   children: React.ReactNode
-  style?: stylex.StyleXStyles
-  variant: 'h1' | 'h2' | 'h3' | 'p' | 'title' | 'xs' | 'sm' | 'important'
+  style?: stylex.StyleXStyles | stylex.StyleXStyles[]
+  variant: 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs'
+  uppercase?: boolean
 }
 
-export const Text = ({ children, style, variant }: TextProps) => {
-  return <span {...stylex.props(styles[variant], style)}>{children}</span>
+export const Text = ({ children, style, variant, uppercase }: TextProps) => {
+  return (
+    <span {...stylex.props([styles[variant], style, uppercase && styles.uppercase])}>
+      {children}
+    </span>
+  )
 }
 
 const styles = stylex.create({
-  h1: {
-    fontSize: fontSizeTokens.h1,
-    fontWeight: fontWeightTokens.h1,
-    lineHeight: lineHeightTokens.h1,
+  uppercase: {
+    textTransform: 'uppercase',
+  },
+  xl: {
+    fontSize: fontSizeTokens.xl,
+    fontWeight: fontWeightTokens.xl,
+    lineHeight: lineHeightTokens.xl,
     color: colorTokens.white0,
     paddingRight: paddingTokens.xl,
     paddingLeft: paddingTokens.xl,
   },
-  h2: {
-    fontSize: fontSizeTokens.h2,
-    fontWeight: fontWeightTokens.h2,
-    lineHeight: lineHeightTokens.h2,
+  lg: {
+    fontSize: fontSizeTokens.lg,
+    fontWeight: fontWeightTokens.lg,
+    lineHeight: lineHeightTokens.lg,
     color: colorTokens.white0,
     paddingRight: paddingTokens.lg,
     paddingLeft: paddingTokens.lg,
   },
-  h3: {
-    fontSize: fontSizeTokens.h3,
-    fontWeight: fontWeightTokens.h3,
-    lineHeight: lineHeightTokens.h3,
+  md: {
+    fontSize: fontSizeTokens.md,
+    fontWeight: fontWeightTokens.md,
+    lineHeight: lineHeightTokens.md,
     color: colorTokens.white0,
     paddingRight: paddingTokens.md,
     paddingLeft: paddingTokens.md,
   },
-  p: {
-    fontSize: fontSizeTokens.p,
-    fontWeight: fontWeightTokens.p,
-    lineHeight: lineHeightTokens.p,
+  sm: {
+    fontSize: fontSizeTokens.sm,
+    fontWeight: fontWeightTokens.sm,
+    lineHeight: lineHeightTokens.sm,
     color: colorTokens.white0,
     paddingRight: paddingTokens.sm,
     paddingLeft: paddingTokens.sm,
-  },
-  title: {
-    fontSize: fontSizeTokens.h1,
-    fontWeight: fontWeightTokens.h1,
-    lineHeight: lineHeightTokens.h1,
-    color: colorTokens.white0,
-    paddingRight: paddingTokens.xs,
-    paddingLeft: paddingTokens.xs,
   },
   xs: {
     fontSize: fontSizeTokens.xs,
@@ -66,20 +66,12 @@ const styles = stylex.create({
     paddingRight: paddingTokens.xxs,
     paddingLeft: paddingTokens.xxs,
   },
-  important: {
-    fontSize: fontSizeTokens.important,
-    fontWeight: fontWeightTokens.important,
-    lineHeight: lineHeightTokens.important,
+  xxs: {
+    fontSize: fontSizeTokens.xxs,
+    fontWeight: fontWeightTokens.xxs,
+    lineHeight: lineHeightTokens.xxs,
     color: colorTokens.white0,
-    paddingRight: paddingTokens.important,
-    paddingLeft: paddingTokens.important,
-  },
-  sm: {
-    fontSize: fontSizeTokens.sm,
-    fontWeight: fontWeightTokens.sm,
-    lineHeight: lineHeightTokens.sm,
-    color: colorTokens.white0,
-    paddingRight: paddingTokens.xs,
-    paddingLeft: paddingTokens.xs,
+    paddingRight: paddingTokens.xxs,
+    paddingLeft: paddingTokens.xxs,
   },
 })

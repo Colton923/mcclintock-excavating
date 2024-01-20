@@ -7,36 +7,67 @@ import landingBackDrop from '../public/images/landingBackDrop.jpg'
 import jobsite1 from '../public/images/jobsite1.jpg'
 import jobsite2 from '../public/images/jobsite2.jpg'
 import jobsite3 from '../public/images/jobsite3.jpg'
+import { Button } from '@/components/UI/Button/Button'
 
 import Unform from '@/components/UX/Intersection/Unform'
+import { Text } from '@/components/UI/Text/Text'
 
 export default function Page() {
   return (
     <div {...stylex.props(styles.base)}>
       <div {...stylex.props(styles.img(excavatorImg.src, excavatorImgHighRes.src))}>
         <div {...stylex.props(styles.hero)}>
-          <span {...stylex.props(styles.heroTitle)}>Certified</span>
-          <span {...stylex.props(styles.heroTitle)}>Professional</span>
-          <span {...stylex.props(styles.heroTitle)}>Trustworthy</span>
+          <Text variant="xl" uppercase style={[styles.heroTitle]}>
+            Certified
+          </Text>
+          <Text variant="xl" uppercase style={[styles.heroTitle]}>
+            Professional
+          </Text>
+          <Text variant="xl" uppercase style={[styles.heroTitle]}>
+            Trustworthy
+          </Text>
           <div {...stylex.props(styles.heroButtons)}>
-            <button {...stylex.props(styles.heroButton)}>Contact Us</button>
-            <button {...stylex.props(styles.heroButton)}>Our Work</button>
+            <Button size="lg-compact">
+              <Text variant="sm" uppercase>
+                Contact Us
+              </Text>
+            </Button>
+            <Button size="lg-compact">
+              <Text variant="sm" uppercase>
+                Our Work
+              </Text>
+            </Button>
           </div>
         </div>
       </div>
       <div {...stylex.props(styles.base2)}>
         <div {...stylex.props(styles.flexWrap(landingBackDrop.src))}>
           <div {...stylex.props(styles.flexItem)}>
-            <span {...stylex.props(styles.flexTitle)}>
+            <Text variant="lg" style={styles.flexText}>
               We love to dig, and we do it well.
-            </span>
+            </Text>
           </div>
           <div {...stylex.props(styles.flexItem)}>
-            <span {...stylex.props(styles.description)}>
-              Plumbing and Excavation is a family owned and operated business.
-              Quality service. Satisfied customers. Jobs done right.
-            </span>
-            <button {...stylex.props(styles.heroButton)}>About Us</button>
+            <Text variant="md" style={styles.flexText}>
+              We are family owned and operated tradesmen servicing the Quad City Area
+              in Plumbing, Excavating and Trucking.
+            </Text>
+            <div {...stylex.props(styles.spaceFlex)}>
+              <Text variant="sm" uppercase style={styles.flexText}>
+                Quality service.
+              </Text>
+              <Text variant="sm" uppercase style={styles.flexText}>
+                Satisfied customers.
+              </Text>
+              <Text variant="sm" uppercase style={styles.flexText}>
+                Clean work.
+              </Text>
+            </div>
+            <Button size="lg-compact">
+              <Text variant="sm" uppercase>
+                About Us
+              </Text>
+            </Button>
           </div>
         </div>
       </div>
@@ -112,29 +143,9 @@ const styles = stylex.create({
     backgroundImage: `linear-gradient(15deg, rgba(0,0,0,0.8), rgba(0,0,0,0.0))`,
   },
   heroTitle: {
-    color: colorTokens.white0,
     width: '100%',
-    height: {
-      [DESKTOP]: '80px',
-      [MOBILE]: '60px',
-    },
-    paddingLeft: '10px',
-    fontWeight: 900,
-    fontSize: {
-      [DESKTOP]: '5rem',
-      [MOBILE]: '2rem',
-    },
-    textIndent: {
-      [DESKTOP]: '100px',
-      [MOBILE]: '10px',
-    },
     textAlign: 'left',
-    textTransform: 'uppercase',
-    textShadow: `
-    1px 1px 0px rgba(0,0,0,1),
-    -1px -1px 0px rgba(0,0,0,1),
-    -1px 1px 0px rgba(0,0,0,1),
-    1px -1px 0px rgba(0,0,0,1)`,
+    maxWidth: '1200px',
   },
   heroButtons: {
     display: 'flex',
@@ -143,33 +154,6 @@ const styles = stylex.create({
     alignItems: 'center',
     width: '100%',
     marginBottom: '20px',
-  },
-  heroButton: {
-    width: '33%',
-    maxWidth: '180px',
-    height: '40px',
-    backgroundColor: {
-      ':hover': colorTokens.primary_red_dark3,
-      ':active': colorTokens.primary_red_dark3,
-      default: colorTokens.primary_red_dark2,
-    },
-    borderColor: colorTokens.primary_red_dark2,
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    margin: '15px 10px 0px 10px',
-    color: colorTokens.white0,
-    borderRadius: '5px',
-    fontSize: '1rem',
-    fontWeight: 700,
-    textTransform: 'uppercase',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease-in-out',
-    textShadow: `
-    1px 1px 0px rgba(0,0,0,1),
-    -1px -1px 0px rgba(0,0,0,1),
-    -1px 1px 0px rgba(0,0,0,1),
-    1px -1px 0px rgba(0,0,0,1)
-    `,
   },
   base2: {
     display: 'flex',
@@ -205,39 +189,24 @@ const styles = stylex.create({
     textAlign: 'center',
     minHeight: '400px',
   },
-  flexTitle: {
-    color: colorTokens.white0,
-    maxWidth: '300px',
-    fontSize: '2rem',
-    fontWeight: 700,
-    textTransform: 'uppercase',
-    textShadow: `
-    1px 1px 0px rgba(0,0,0,1),
-    -1px -1px 0px rgba(0,0,0,1),
-    -1px 1px 0px rgba(0,0,0,1),
-    1px -1px 0px rgba(0,0,0,1)
-    `,
+  flexText: {
+    maxWidth: '400px',
   },
-  description: {
-    color: colorTokens.white0,
-    fontSize: '1.8rem',
-    fontWeight: 400,
-    maxWidth: '300px',
-    textShadow: `
-    1px 1px 0px rgba(0,0,0,1),
-    -1px -1px 0px rgba(0,0,0,1),
-    -1px 1px 0px rgba(0,0,0,1),
-    1px -1px 0px rgba(0,0,0,1)
-    `,
+  spaceFlex: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    width: '100%',
+    paddingTop: '20px',
+    paddingBottom: '20px',
   },
   base3: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: '100vh',
-    width: '100vw',
-    overflowX: 'hidden',
+    overflow: 'hidden',
   },
   flexWrapCardImgs: {
     display: 'flex',
@@ -245,11 +214,10 @@ const styles = stylex.create({
     flexWrap: 'wrap',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    width: '100%',
-    height: '100%',
     maxWidth: '1200px',
   },
   cardImg1: (imgSrc) => ({
+    display: 'flex',
     width: {
       [DESKTOP]: '33%',
       [MOBILE]: '100%',
@@ -257,7 +225,15 @@ const styles = stylex.create({
     minHeight: '500px',
     maxWidth: '400px',
     minWidth: '300px',
-    margin: '1rem 0',
+    marginTop: '1rem',
+    marginRight: {
+      [DESKTOP]: '1rem',
+      [MOBILE]: '0',
+    },
+    marginLeft: {
+      [DESKTOP]: '1rem',
+      [MOBILE]: '0',
+    },
     backgroundImage: `url(${imgSrc})`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',
@@ -268,6 +244,7 @@ const styles = stylex.create({
     zIndex: 5,
   }),
   cardImg2: (imgSrc) => ({
+    display: 'flex',
     width: {
       [DESKTOP]: '33%',
       [MOBILE]: '100%',
@@ -275,7 +252,15 @@ const styles = stylex.create({
     minHeight: '500px',
     maxWidth: '400px',
     minWidth: '300px',
-    margin: '1rem 0',
+    marginTop: '1rem',
+    marginRight: {
+      [DESKTOP]: '1rem',
+      [MOBILE]: '0',
+    },
+    marginLeft: {
+      [DESKTOP]: '1rem',
+      [MOBILE]: '0',
+    },
     backgroundImage: `url(${imgSrc})`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',
@@ -286,6 +271,7 @@ const styles = stylex.create({
     zIndex: 4,
   }),
   cardImg3: (imgSrc) => ({
+    display: 'flex',
     width: {
       [DESKTOP]: '33%',
       [MOBILE]: '100%',
@@ -293,7 +279,15 @@ const styles = stylex.create({
     minHeight: '500px',
     maxWidth: '400px',
     minWidth: '300px',
-    margin: '1rem 0',
+    marginTop: '1rem',
+    marginRight: {
+      [DESKTOP]: '1rem',
+      [MOBILE]: '0',
+    },
+    marginLeft: {
+      [DESKTOP]: '1rem',
+      [MOBILE]: '0',
+    },
     backgroundImage: `url(${imgSrc})`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',
