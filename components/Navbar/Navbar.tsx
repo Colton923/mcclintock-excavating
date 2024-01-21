@@ -7,7 +7,6 @@ import { Button } from '../UI/Button/Button'
 import { Text } from '../UI/Text/Text'
 import { usePathname } from 'next/navigation'
 import { A } from '../UI/A/A'
-type NavbarProps = {}
 
 const Navbar = () => {
   const [collapsed, setCollapsed] = useState(false)
@@ -15,6 +14,14 @@ const Navbar = () => {
   const [mobileDrawer, setMobileDrawer] = useState(false)
   const [overlay, setOverlay] = useState(false)
   const pathname = usePathname()
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }, [pathname])
+
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY)
@@ -50,14 +57,16 @@ const Navbar = () => {
   return (
     <div {...stylex.props(styles.logoDiv)}>
       <div {...stylex.props(styles.base, collapsed && styles.slideOut)}>
-        <div {...stylex.props(styles.logo)}>
-          <Excavator
-            height="100%"
-            width="100%"
-            fill={'rgba(255,255,255,0)'}
-            stroke={'rgba(255,255,255,0.3)'}
-          />
-        </div>
+        <A href="/">
+          <div {...stylex.props(styles.logo)}>
+            <Excavator
+              height="100%"
+              width="100%"
+              fill={'rgba(255,255,255,0)'}
+              stroke={'rgba(255,255,255,0.3)'}
+            />
+          </div>
+        </A>
         <div {...stylex.props(styles.navBase)}>
           <div {...stylex.props(styles.dividerWrapper)}>
             <div {...stylex.props(styles.divider)} />
@@ -67,7 +76,7 @@ const Navbar = () => {
               <span
                 {...stylex.props(
                   styles.navItem,
-                  pathname.includes('/') && styles.navItemActive
+                  pathname === '/' && styles.navItemActive
                 )}
               >
                 Home
@@ -195,6 +204,17 @@ const Navbar = () => {
             >
               <Text variant="md" uppercase>
                 Projects
+              </Text>
+            </Button>
+          </A>
+          <A href="/services">
+            <Button
+              size={'lg'}
+              style={styles.drawerNavItem}
+              onClick={handleCollapse}
+            >
+              <Text variant="md" uppercase>
+                Services
               </Text>
             </Button>
           </A>
@@ -390,7 +410,7 @@ const styles = stylex.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: colorTokens.white0,
+    backgroundColor: colorTokens.black8,
     zIndex: 100,
     overflow: 'hidden',
     animationName: NavbarTransition2,

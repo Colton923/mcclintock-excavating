@@ -1,8 +1,5 @@
 import * as stylex from '@stylexjs/stylex'
-import { colorTokens } from '../../styles/colorTokens.stylex'
 import { A } from '../UI/A/A'
-
-type FooterProps = {}
 
 const Footer = () => {
   return (
@@ -16,7 +13,10 @@ const Footer = () => {
             <A href="/projects">
               <span {...stylex.props(styles.navItem)}>Projects</span>
             </A>
-            <A href="/contact">
+            <A href="/services">
+              <span {...stylex.props(styles.navItem)}>Services</span>
+            </A>
+            <A href="/careers">
               <span {...stylex.props(styles.navItem)}>Careers</span>
             </A>
             <A href="/contact">
@@ -28,12 +28,6 @@ const Footer = () => {
     </div>
   )
 }
-
-type TMobile = '@media (max-width: 786px)'
-type TDesktop = '@media (min-width: 786px)'
-
-const MOBILE: TMobile = '@media (max-width: 786px)' as TMobile
-const DESKTOP: TDesktop = '@media (min-width: 786px)' as TDesktop
 
 const styles = stylex.create({
   footer: {

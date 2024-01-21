@@ -1,8 +1,8 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import FormField from '../FormField'
-import type { FormData } from './types'
+import type { CareerFormData } from './types'
 import { formGroups } from './_consts/formGroups'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -22,7 +22,7 @@ export const emailRegex = new RegExp(
   /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/
 )
 export const numberRegex = new RegExp(/^[0-9]*$/)
-const contactFormSchema = z.object({
+const careerFormSchema = z.object({
   firstName: z
     .string()
     .min(2, { message: 'Too short' })
@@ -38,15 +38,13 @@ const contactFormSchema = z.object({
   phoneNumber: z.string().min(10).max(10).regex(phoneRegex, 'Invalid phone number'),
   message: z
     .string()
-    .optional()
-    .or(
-      z.string().min(2, { message: 'Too short' }).max(500, { message: 'Too long' })
-    ),
+    .min(2, { message: 'Too short' })
+    .max(500, { message: 'Too long' }),
 })
 
-type ContactFormSchema = z.infer<typeof contactFormSchema>
+type CareerFormSchema = z.infer<typeof careerFormSchema>
 
-export const ContactForm = () => {
+export const CareerForm = () => {
   const [submitting, setSubmitting] = useState(false)
   const {
     register,
@@ -56,28 +54,28 @@ export const ContactForm = () => {
     clearErrors,
     setValue,
     setFocus,
-  } = useForm<ContactFormSchema>({
-    resolver: zodResolver(contactFormSchema),
+  } = useForm<CareerFormSchema>({
+    resolver: zodResolver(careerFormSchema),
     delayError: 1000,
   })
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: CareerFormData) => {
     setSubmitting(true)
     console.log(data)
   }
   const handleAttemptedSubmit = () => {
-    const firstError = Object.keys(errors)[0] as keyof FormData
+    const firstError = Object.keys(errors)[0] as keyof CareerFormData
     if (firstError) {
-      setFocus(firstError as keyof FormData)
+      setFocus(firstError as keyof CareerFormData)
+      return
     }
+    window.scrollTo(0, 0)
+    return
   }
   return (
     <>
       {submitting ? (
         <div {...stylex.props(styles.headerWrapper)}>
-          <Text variant="lg" style={styles.headerText}>
-            Thank you for reaching out!
-          </Text>
           <Text variant="md" style={styles.headerText}>
             We will be in touch with you soon.
           </Text>
@@ -89,7 +87,7 @@ export const ContactForm = () => {
         >
           <div {...stylex.props(styles.headerWrapper)}>
             <Text variant="lg" style={styles.headerText}>
-              Contact Us
+              Interested in joining our team?
             </Text>
           </div>
           <div {...stylex.props(styles.divider)} />

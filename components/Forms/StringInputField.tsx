@@ -1,14 +1,11 @@
 import { Text } from '@/components/UI'
-import { colorTokens } from '../../../styles/colorTokens.stylex'
-import type { FormFieldProps } from './types'
+import { colorTokens } from '../../styles/colorTokens.stylex'
+import type { FormFieldProps } from './FormField'
 import * as stylex from '@stylexjs/stylex'
-import {
-  fontSizeTokens,
-  fontWeightTokens,
-  lineHeightTokens,
-} from '../../../components/UI/Text/Text.stylex'
 
-const TextAreaInputField = ({
+// import PhoneInputHandler from '@/utils/PhoneInputHandler'
+
+const StringInputField = ({
   name,
   label,
   register,
@@ -18,7 +15,7 @@ const TextAreaInputField = ({
 }: FormFieldProps) => {
   return (
     <div {...stylex.props(styles.wrapper)}>
-      <textarea
+      <input
         {...stylex.props(styles.input)}
         id={`${name}`}
         {...register(name, { required, valueAsNumber })}
@@ -39,7 +36,7 @@ const TextAreaInputField = ({
           id={`${name}-label`}
           htmlFor={`${name}`}
         >
-          <Text variant="sm" style={styles.labelText}>
+          <Text style={styles.labelText} variant="sm">
             {`${label} ${required ? '*' : ''}`}
           </Text>
         </label>
@@ -48,7 +45,7 @@ const TextAreaInputField = ({
   )
 }
 
-export default TextAreaInputField
+export default StringInputField
 
 const styles = stylex.create({
   wrapper: {
@@ -63,7 +60,8 @@ const styles = stylex.create({
     padding: '2rem 0.75rem 0.75rem 0.75rem',
     borderRadius: '0.375rem',
     width: '100%',
-    height: '12rem',
+    height: '4rem',
+    borderWidth: '0',
     backgroundColor: colorTokens.black8,
   },
   label: {

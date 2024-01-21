@@ -1,6 +1,9 @@
 import { Card } from '@/components/UI/Card/Card'
 import { Text } from '@/components/UI/Text/Text'
 import * as stylex from '@stylexjs/stylex'
+import randy from '@/public/images/randy.jpg'
+import { colorTokens } from '../../styles/colorTokens.stylex'
+import { ExcavatorLogo } from '@/components/SVGs'
 
 export default function Page() {
   return (
@@ -24,18 +27,29 @@ export default function Page() {
         style={styles.textBlock}
         variant="md"
       >{`Driven by our steadfast commitment to excellence, we consistently go above and beyond to ensure our clients' complete satisfaction..`}</Text>
+      <div {...stylex.props(styles.logoBlock)}>
+        <ExcavatorLogo
+          width={'100%'}
+          height={'100%'}
+          stroke={colorTokens.white0}
+          fill={colorTokens.primary_red_dark3}
+        />
+      </div>
       <div {...stylex.props(styles.title)}>
         <Text variant="xl">The Team</Text>
       </div>
+
       <div {...stylex.props(styles.cards)}>
         <Card style={styles.card}>
           <div {...stylex.props(styles.flex)}>
             <Text variant="md">Randy McClintock</Text>
-            <div {...stylex.props(styles.imagePlaceholder)}>
-              <Text style={styles.imagePlaceholderText} variant="sm">
-                Image Placeholder
-              </Text>
-            </div>
+            <img
+              {...stylex.props(styles.img)}
+              src={randy.src}
+              width={'278px'}
+              height={'360px'}
+              alt="owner"
+            />
             <Text variant="sm">Owner</Text>
           </div>
         </Card>
@@ -89,7 +103,25 @@ const imageShift = stylex.keyframes({
   },
 })
 
+type TMobile = '@media (max-width: 786px)'
+type TDesktop = '@media (min-width: 786px)'
+
+const MOBILE: TMobile = '@media (max-width: 786px)' as TMobile
+const DESKTOP: TDesktop = '@media (min-width: 786px)' as TDesktop
+
 const styles = stylex.create({
+  img: {
+    objectFit: 'cover',
+    objectPosition: 'center',
+    borderRightWidth: '1px',
+    borderRightStyle: 'solid',
+    borderRightColor: colorTokens.primary_red_dark3,
+    borderLeftWidth: '1px',
+    borderLeftStyle: 'solid',
+    borderLeftColor: colorTokens.primary_red_dark3,
+    paddingTop: '10px',
+    paddingBottom: '10px',
+  },
   base: {
     display: 'flex',
     flexDirection: 'column',
@@ -98,7 +130,10 @@ const styles = stylex.create({
     minHeight: '100vh',
   },
   title1: {
-    marginTop: '150px',
+    marginTop: {
+      [MOBILE]: '150px',
+      [DESKTOP]: '250px',
+    },
     marginBottom: '40px',
   },
   title: {
@@ -124,12 +159,25 @@ const styles = stylex.create({
     maxWidth: '800px',
     width: '100%',
   },
+  logoBlock: {
+    display: {
+      [MOBILE]: 'none',
+      [DESKTOP]: 'flex',
+    },
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+    maxWidth: '800px',
+    width: '100%',
+    marginBottom: '40px',
+  },
   card: {
     margin: '10px',
     width: '280px',
   },
   imagePlaceholder: {
-    width: '280px',
+    width: '278px',
     height: '380px',
     backgroundImage:
       'linear-gradient(60deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 100%)',

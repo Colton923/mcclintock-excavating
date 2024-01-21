@@ -1,4 +1,5 @@
 import { ContactForm } from '@/components/Forms/ContactForm/ContactForm'
+import GoogleMap from '@/components/GoogleMap/GoogleMap'
 import { Email, GoogleMaps, Phone } from '@/components/SVGs'
 import { A } from '@/components/UI/A/A'
 import { Text } from '@/components/UI/Text/Text'
@@ -7,6 +8,9 @@ import * as stylex from '@stylexjs/stylex'
 export default function Page() {
   return (
     <div {...stylex.props(styles.base)}>
+      <div {...stylex.props(styles.googleMap)}>
+        <GoogleMap />
+      </div>
       <div {...stylex.props(styles.title1)}>
         <Text variant="xl">Contact</Text>
       </div>
@@ -50,6 +54,12 @@ export default function Page() {
   )
 }
 
+type TMobile = '@media (max-width: 786px)'
+type TDesktop = '@media (min-width: 786px)'
+
+const MOBILE: TMobile = '@media (max-width: 786px)' as TMobile
+const DESKTOP: TDesktop = '@media (min-width: 786px)' as TDesktop
+
 const styles = stylex.create({
   base: {
     display: 'flex',
@@ -57,9 +67,22 @@ const styles = stylex.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     minHeight: '100vh',
+    maxWidth: '1200px',
+  },
+  googleMap: {
+    marginTop: {
+      [MOBILE]: '150px',
+      [DESKTOP]: '230px',
+    },
+    width: '100%',
+    padding: '10px',
+    marginBottom: '40px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title1: {
-    marginTop: '150px',
+    marginTop: '40px',
     marginBottom: '40px',
   },
   title: {
@@ -84,6 +107,7 @@ const styles = stylex.create({
     padding: '5px',
     borderRadius: '8px',
     marginBottom: '20px',
+    marginLeft: '10px',
   },
   grid: {
     display: 'grid',

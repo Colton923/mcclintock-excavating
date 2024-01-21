@@ -11,6 +11,7 @@ import { Button } from '@/components/UI/Button/Button'
 
 import Unform from '@/components/UX/Intersection/Unform'
 import { Text } from '@/components/UI/Text/Text'
+import { A } from '@/components/UI'
 
 export default function Page() {
   return (
@@ -27,16 +28,20 @@ export default function Page() {
             Trustworthy
           </Text>
           <div {...stylex.props(styles.heroButtons)}>
-            <Button size="lg-compact">
-              <Text variant="sm" uppercase>
-                Contact Us
-              </Text>
-            </Button>
-            <Button size="lg-compact">
-              <Text variant="sm" uppercase>
-                Projects
-              </Text>
-            </Button>
+            <A href="/contact">
+              <Button size="lg-compact">
+                <Text variant="sm" uppercase>
+                  Contact Us
+                </Text>
+              </Button>
+            </A>
+            <A href="/projects">
+              <Button size="lg-compact">
+                <Text variant="sm" uppercase>
+                  Projects
+                </Text>
+              </Button>
+            </A>
           </div>
         </div>
       </div>
@@ -63,11 +68,13 @@ export default function Page() {
                 Clean work.
               </Text>
             </div>
-            <Button size="lg-compact">
-              <Text variant="sm" uppercase>
-                About Us
-              </Text>
-            </Button>
+            <A href="/about">
+              <Button size="lg-compact">
+                <Text variant="sm" uppercase>
+                  About Us
+                </Text>
+              </Button>
+            </A>
           </div>
         </div>
       </div>

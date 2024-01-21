@@ -7,19 +7,18 @@ import {
 } from 'react-hook-form'
 
 export type TextTypes = 'text' | 'email' | 'tel' | 'textarea' | 'strict-text'
-
-export type FormData = {
+export type CareerFormData = {
   firstName: string
   lastName: string
   phoneNumber: string
   email: string
-  message?: string
+  message: string
 }
 
 export type TFormGroups = {
   groupName: string
   fields: {
-    name: keyof FormData
+    name: keyof CareerFormData
     label: string
     type: TextTypes
     placeholder: string
@@ -33,11 +32,11 @@ export type FormFieldProps = {
   placeholder: string
   name: string
   label: string
-  register: UseFormRegister<FormData>
+  register: UseFormRegister<CareerFormData>
   error: FieldError | undefined
   valueAsNumber?: boolean
   required: boolean
-  setError: UseFormSetError<FormData>
-  clearErrors: UseFormClearErrors<FormData>
-  setValue: UseFormSetValue<FormData>
+  setError: UseFormSetError<CareerFormData>
+  clearErrors: UseFormClearErrors<CareerFormData>
+  setValue: UseFormSetValue<CareerFormData>
 }

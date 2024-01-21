@@ -13,8 +13,11 @@ export const Card = ({ children, style }: CardProps) => {
 const styles = stylex.create({
   root: {
     borderRadius: '8px',
-    backgroundColor: colorTokens.primary_red_dark3,
+    backgroundColor: colorTokens.black8,
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+    borderColor: colorTokens.primary_red_dark3,
+    borderStyle: 'solid',
+    borderWidth: '1px',
     padding: '16px',
   },
 })
