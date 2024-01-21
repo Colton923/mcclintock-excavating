@@ -1,3 +1,4 @@
+import { ContactForm } from '@/components/Forms/ContactForm/ContactForm'
 import { Email, GoogleMaps, Phone } from '@/components/SVGs'
 import { A } from '@/components/UI/A/A'
 import { Text } from '@/components/UI/Text/Text'
@@ -41,6 +42,9 @@ export default function Page() {
         <Text variant="sm">7:00 AM - 4:30 PM</Text>
         <Text variant="sm">Saturday - Sunday</Text>
         <Text variant="sm">Closed</Text>
+      </div>
+      <div {...stylex.props(styles.contactForm)}>
+        <ContactForm />
       </div>
     </div>
   )
@@ -88,5 +92,9 @@ const styles = stylex.create({
     gridTemplateAreas: '"a b" "c d"',
     gridGap: '10px',
     marginBottom: '20px',
+  },
+  contactForm: {
+    marginTop: '100px',
+    marginBottom: '100px',
   },
 })
