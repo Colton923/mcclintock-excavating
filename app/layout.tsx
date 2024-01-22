@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     images: [
       {
-        url: 'https://mcclintocktruckingandexcavating.comm/excavator-32.png',
+        url: 'https://mcclintocktruckingandexcavating.com/android-chrome-512x512.png',
         width: 32,
         height: 32,
         alt: 'McClintock Trucking & Excavating',
