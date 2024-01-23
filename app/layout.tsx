@@ -2,11 +2,20 @@ import * as stylex from '@stylexjs/stylex'
 import '@/styles/globals.css'
 import AppShell from '@/components/AppShell/AppShell'
 import { Metadata } from 'next'
+import inject from '@stylexjs/dev-runtime'
 
 interface Props {
   children: React.ReactNode
   modal: React.ReactNode
 }
+
+inject({
+  styleResolution: 'application-order',
+  test: process.env.NODE_ENV === 'test' || false,
+  classNamePrefix: 'x-',
+  useRemForFontSize: true,
+  dev: process.env.NODE_ENV === 'development' || false,
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://mcclintocktruckingandexcavating.com'),

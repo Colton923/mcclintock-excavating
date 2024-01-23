@@ -18,13 +18,14 @@ export default function Page() {
     <div {...stylex.props(styles.base)}>
       <div {...stylex.props(styles.img(excavatorImg.src, excavatorImgHighRes.src))}>
         <div {...stylex.props(styles.hero)}>
-          <Text variant="xl" uppercase style={[styles.heroTitle]}>
+          {/* //@ts-ignore */}
+          <Text variant="xl" uppercase style={styles.heroTitle as any}>
             Certified
           </Text>
-          <Text variant="xl" uppercase style={[styles.heroTitle]}>
+          <Text variant="xl" uppercase style={styles.heroTitle as any}>
             Professional
           </Text>
-          <Text variant="xl" uppercase style={[styles.heroTitle]}>
+          <Text variant="xl" uppercase style={styles.heroTitle as any}>
             Trustworthy
           </Text>
           <div {...stylex.props(styles.heroButtons)}>
@@ -45,37 +46,36 @@ export default function Page() {
           </div>
         </div>
       </div>
+      <div {...stylex.props(styles.flexWrap(landingBackDrop.src))} />
       <div {...stylex.props(styles.base2)}>
-        <div {...stylex.props(styles.flexWrap(landingBackDrop.src))}>
-          <div {...stylex.props(styles.flexItem)}>
-            <Text variant="lg" style={styles.flexText}>
-              We love to dig, and we do it well.
+        <div {...stylex.props(styles.flexItem)}>
+          <Text variant="lg" style={styles.flexText}>
+            We love to dig, and we do it well.
+          </Text>
+        </div>
+        <div {...stylex.props(styles.flexItem)}>
+          <Text variant="md" style={styles.flexText}>
+            We are family owned and operated. Expert tradesmen serving the Quad
+            Cities in plumbing, excavating and trucking.
+          </Text>
+          <div {...stylex.props(styles.spaceFlex)}>
+            <Text variant="sm" uppercase style={styles.flexText}>
+              Quality service.
+            </Text>
+            <Text variant="sm" uppercase style={styles.flexText}>
+              Satisfied customers.
+            </Text>
+            <Text variant="sm" uppercase style={styles.flexText}>
+              Clean work.
             </Text>
           </div>
-          <div {...stylex.props(styles.flexItem)}>
-            <Text variant="md" style={styles.flexText}>
-              We are family owned and operated. Expert tradesmen serving the Quad
-              Cities in plumbing, excavating and trucking.
-            </Text>
-            <div {...stylex.props(styles.spaceFlex)}>
-              <Text variant="sm" uppercase style={styles.flexText}>
-                Quality service.
+          <A href="/about">
+            <Button size="lg-compact">
+              <Text variant="sm" uppercase>
+                About Us
               </Text>
-              <Text variant="sm" uppercase style={styles.flexText}>
-                Satisfied customers.
-              </Text>
-              <Text variant="sm" uppercase style={styles.flexText}>
-                Clean work.
-              </Text>
-            </div>
-            <A href="/about">
-              <Button size="lg-compact">
-                <Text variant="sm" uppercase>
-                  About Us
-                </Text>
-              </Button>
-            </A>
-          </div>
+            </Button>
+          </A>
         </div>
       </div>
       <div {...stylex.props(styles.base3)}>
@@ -108,7 +108,22 @@ type TDesktop = '@media (min-width: 786px)'
 
 const MOBILE: TMobile = '@media (max-width: 786px)' as TMobile
 const DESKTOP: TDesktop = '@media (min-width: 786px)' as TDesktop
-
+const slam = stylex.keyframes({
+  '0%': {
+    transform: 'translate(0, 0)',
+    opacity: 0,
+    scale: '1',
+  },
+  '90%': {
+    transform: 'translate(0, 1px)',
+    scale: '1.05',
+  },
+  '100%': {
+    transform: 'translate(0, 0)',
+    opacity: 1,
+    scale: '1',
+  },
+})
 const styles = stylex.create({
   base: {
     display: 'flex',
@@ -118,41 +133,62 @@ const styles = stylex.create({
     minHeight: '100vh',
   },
   img: (imgSrc, imgHighResSrc) => ({
-    width: '100vw',
     objectPosition: 'center',
-    backgroundPositionX: 'center',
-    backgroundPositionY: 'bottom',
-    minHeight: {
-      [DESKTOP]: '1000px',
-      [MOBILE]: '800px',
-    },
+    backgroundPosition: 'top',
+    backgroundBlendMode: 'multiply',
+    width: '100vw',
+    minHeight: '100svh',
     backgroundImage: {
       [DESKTOP]: `url(${imgHighResSrc})`,
       [MOBILE]: `url(${imgSrc})`,
     },
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundSize: {
+      [DESKTOP]: 'contain',
+      [MOBILE]: 'cover',
+    },
     display: 'flex',
+    position: 'relative',
     flexDirection: 'column',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    height: '100%',
+    backgroundRepeat: 'no-repeat',
   }),
   hero: {
-    width: '100%',
-    minWidth: '80vw',
-    paddingTop: '50px',
-    height: '100%',
+    height: 'auto',
     display: 'flex',
+    position: 'absolute',
+    top: 'auto',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundImage: `linear-gradient(15deg, rgba(0,0,0,0.8), rgba(0,0,0,0.0))`,
+    textAlign: 'left',
+    width: '100vw',
   },
   heroTitle: {
+    transform: 'translate(0, -1px)',
+    animationDelay: {
+      default: '0.1s',
+      ':nth-child(1)': 'calc(0.5s * 1)',
+      ':nth-child(2)': 'calc(0.7s * 2)',
+      ':nth-child(3)': 'calc(0.8s * 3)',
+    },
+    animationName: slam,
+    animationDuration: '1s',
+    animationIterationCount: '1',
+    animationTimingFunction: 'ease-in-out',
+    animationFillMode: 'forwards',
+    opacity: 0,
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     width: '100%',
+    right: 'auto',
     textAlign: 'left',
     maxWidth: '1200px',
+    paddingLeft: '1rem',
   },
   heroButtons: {
     display: 'flex',
@@ -176,12 +212,17 @@ const styles = stylex.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
-    height: '100vh',
     backgroundColor: 'rgba(55,55,55,0.8)',
     backgroundImage: `url(${imgSrc})`,
     backgroundPositionY: 'bottom',
+    zIndex: '-1',
     backgroundBlendMode: 'multiply',
+    width: '100vw',
+    height: '200svh',
+    position: 'absolute',
+    top: '80svh',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
   }),
   flexItem: {
     width: {

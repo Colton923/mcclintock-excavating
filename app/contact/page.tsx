@@ -7,10 +7,8 @@ import * as stylex from '@stylexjs/stylex'
 
 export default function Page() {
   return (
-    <div {...stylex.props(styles.base)}>
-      <div {...stylex.props(styles.googleMap)}>
-        <GoogleMap />
-      </div>
+    <div {...stylex.props(styles.base, styles.navbarMargin)}>
+      <GoogleMap style={styles.googleMap} />
       <div {...stylex.props(styles.title1)}>
         <Text variant="xl">Contact</Text>
       </div>
@@ -68,15 +66,19 @@ const styles = stylex.create({
     alignItems: 'flex-start',
     minHeight: '100vh',
     maxWidth: '1200px',
+    marginTop: '200px',
   },
-  googleMap: {
+  navbarMargin: {
     marginTop: {
       [MOBILE]: '150px',
       [DESKTOP]: '230px',
     },
+  },
+
+  googleMap: {
     width: '100%',
-    padding: '10px',
     marginBottom: '40px',
+    borderRadius: '.0375rem',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

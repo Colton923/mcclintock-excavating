@@ -1,11 +1,13 @@
-import { StyleXStyles } from '@stylexjs/stylex'
+import type { StyleXStyles } from '@stylexjs/stylex'
 
-type SVGProps = {
+export type SVGProps = {
+  style?: StyleXStyles[] | StyleXStyles
   width?: string
   height?: string
   fill?: string
   stroke?: string
-  style?: StyleXStyles[] | StyleXStyles
+  maxHeight?: string
+  maxWidth?: string
 }
 
 export default SVGProps

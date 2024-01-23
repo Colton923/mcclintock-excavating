@@ -4,9 +4,6 @@ import * as stylex from '@stylexjs/stylex'
 export default function Page() {
   return (
     <div {...stylex.props(styles.base)}>
-      <div {...stylex.props(styles.title1)}>
-        <Text variant="xl">Services</Text>
-      </div>
       <div {...stylex.props(styles.group)}>
         <Text variant="xl">Construction Services</Text>
         <Text style={styles.textBlock} variant="sm">
@@ -86,10 +83,7 @@ const styles = stylex.create({
     alignItems: 'center',
     minHeight: '100vh',
     maxWidth: '1200px',
-  },
-  title1: {
-    marginTop: '150px',
-    marginBottom: '40px',
+    marginTop: '250px',
   },
   listTitle: {
     width: '100%',

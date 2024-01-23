@@ -2,8 +2,15 @@ import * as stylex from '@stylexjs/stylex'
 import { colorTokens } from '../../../styles/colorTokens.stylex'
 import { margin, maxHeight, maxWidth, padding } from './Button.stylex'
 import type { ButtonProps } from './types'
+import { hideDesktopTheme, hideMobileTheme } from '../theme'
 
-export const Button = ({ children, style, onClick, size }: ButtonProps) => {
+export const Button = ({
+  children,
+  style,
+  onClick,
+  size,
+  hideMobile,
+}: ButtonProps) => {
   return (
     <div onClick={onClick} {...stylex.props(styles.root, styles[size], style)}>
       {children}

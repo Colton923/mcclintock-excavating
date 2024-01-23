@@ -2,13 +2,25 @@ import * as stylex from '@stylexjs/stylex'
 import { colorTokens } from '../../styles/colorTokens.stylex'
 import type SVGProps from './types'
 
-export const Excavator = ({ height, width, style, fill, stroke }: SVGProps) => {
+export const Excavator = ({
+  height,
+  width,
+  style,
+  fill,
+  stroke,
+  maxHeight,
+  maxWidth,
+}: SVGProps) => {
   return (
     <svg
       baseProfile="full"
       height={height ? height : '622px'}
       width={width ? width : '712px'}
-      {...stylex.props([style])}
+      style={{
+        maxHeight: maxHeight ? maxHeight : '622px',
+        maxWidth: maxWidth ? maxWidth : '712px',
+      }}
+      {...stylex.props(style)}
       viewBox="0 0 712 622"
     >
       <path

@@ -2,11 +2,14 @@
 import * as stylex from '@stylexjs/stylex'
 import { useState, useEffect } from 'react'
 import { colorTokens } from '../../styles/colorTokens.stylex'
-import { Burger, Excavator } from '../SVGs'
+import { Burger, Excavator, ExcavatorLogo } from '../SVGs'
 import { Button } from '../UI/Button/Button'
 import { Text } from '../UI/Text/Text'
 import { usePathname } from 'next/navigation'
 import { A } from '../UI/A/A'
+import NameTag from './_components/NameTag'
+import { hideDesktopTheme, hideMobileTheme, maxHeightNavbar } from '../UI/theme'
+import { mobileDisplays } from '../UI/root.stylex'
 
 const Navbar = () => {
   const [collapsed, setCollapsed] = useState(false)
@@ -55,22 +58,38 @@ const Navbar = () => {
   }, [scrollY])
 
   return (
-    <div {...stylex.props(styles.logoDiv)}>
-      <div {...stylex.props(styles.base, collapsed && styles.slideOut)}>
-        <A href="/">
-          <div {...stylex.props(styles.logo)}>
-            <Excavator
-              height="100%"
-              width="100%"
-              fill={'rgba(255,255,255,0)'}
-              stroke={'rgba(255,255,255,0.3)'}
-            />
-          </div>
-        </A>
-        <div {...stylex.props(styles.navBase)}>
-          <div {...stylex.props(styles.dividerWrapper)}>
-            <div {...stylex.props(styles.divider)} />
-          </div>
+    <div
+      {...stylex.props(
+        collapsed && styles.slideOut,
+        styles.navbar,
+        !collapsed && styles.slideIn,
+        !collapsed && styles.fadeIn,
+        collapsed && styles.smallDelay
+      )}
+    >
+      {/* Name Tag Icon */}
+      <NameTag name={'McClintock Trucking & Excavating'} />
+      {/* Permanent logo top right */}
+
+      <A
+        href="/"
+        style={[
+          styles._Root,
+          collapsed && styles.fadeOut,
+          styles.initialYFix,
+          collapsed && styles.smallAccel,
+        ]}
+      >
+        <ExcavatorLogo
+          height="30%"
+          width="30%"
+          fill={'rgba(255,255,255,0)'}
+          stroke={'rgba(255,255,255,0.8)'}
+        />
+      </A>
+      {/* Navbar elemnts */}
+      <div {...stylex.props(collapsed && styles.slideOut)}>
+        <div {...stylex.props(styles.navBase, styles.displayDesktopOnly)}>
           <div {...stylex.props(styles.navItems)}>
             <A href="/">
               <span
@@ -124,27 +143,33 @@ const Navbar = () => {
             </A>
           </div>
         </div>
-        <div {...stylex.props(styles.displayMobileOnly)}>
-          <Button
-            onClick={handleCollapse}
-            size={'md-compact'}
-            style={styles.navBurger}
-          >
-            <Burger stroke={'rgba(255,255,255,.5'} width="100%" height="100%" />
-          </Button>
-        </div>
       </div>
-      <div {...stylex.props(styles.logoTagPosition)}>
-        <Text variant="xxs" uppercase style={styles.logoTagPosition}>
-          McClintock
-        </Text>
+
+      <div
+        {...stylex.props(
+          hideDesktopTheme,
+          collapsed && styles.slideOut,
+          styles.displayMobileOnly
+        )}
+      >
+        <Button
+          onClick={handleCollapse}
+          size={'md-compact'}
+          style={styles.navBurger}
+          hideMobile={false}
+        >
+          <Burger stroke={'rgba(255,255,255,1'} width="100%" height="100%" />
+        </Button>
       </div>
+
+      {/* Mobile Navbar only */}
       <div
         {...stylex.props(
           mobileDrawer && styles.fullScreenNav,
           styles.displayMobileOnly,
           !mobileDrawer && styles.hidden,
-          overlay && styles.slideOut
+          overlay && styles.slideOut,
+          maxHeightNavbar
         )}
       >
         <div {...stylex.props(styles.drawerNavItems)}>
@@ -174,7 +199,7 @@ const Navbar = () => {
               </svg>
             </Button>
           </div>
-          <A href="/">
+          <A href="/" style={styles.drawerLink}>
             <Button
               size={'lg'}
               style={styles.drawerNavItem}
@@ -185,7 +210,7 @@ const Navbar = () => {
               </Text>
             </Button>
           </A>
-          <A href="/about">
+          <A style={styles.drawerLink} href="/about">
             <Button
               size={'lg'}
               style={styles.drawerNavItem}
@@ -196,7 +221,7 @@ const Navbar = () => {
               </Text>
             </Button>
           </A>
-          <A href="/projects">
+          <A style={styles.drawerLink} href="/projects">
             <Button
               size={'lg'}
               style={styles.drawerNavItem}
@@ -207,7 +232,7 @@ const Navbar = () => {
               </Text>
             </Button>
           </A>
-          <A href="/services">
+          <A style={styles.drawerLink} href="/services">
             <Button
               size={'lg'}
               style={styles.drawerNavItem}
@@ -218,7 +243,7 @@ const Navbar = () => {
               </Text>
             </Button>
           </A>
-          <A href="/careers">
+          <A style={styles.drawerLink} href="/careers">
             <Button
               size={'lg'}
               style={styles.drawerNavItem}
@@ -272,45 +297,55 @@ const NavbarTransition2 = stylex.keyframes({
   },
 })
 
+const fadeOutFrames = stylex.keyframes({
+  '0%': {
+    opacity: 1,
+  },
+  '100%': {
+    opacity: 0,
+    display: 'none',
+  },
+})
+const fadeInFrames = stylex.keyframes({
+  '0%': {
+    opacity: 0,
+    display: 'none',
+  },
+  '100%': {
+    opacity: 1,
+  },
+})
+
 const styles = stylex.create({
-  logoDiv: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100vw',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    zIndex: 100,
-  },
-  logoTagPosition: {
+  navbar: {
     position: 'fixed',
     top: 0,
     left: 0,
-    height: '30px',
     width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logoTag: {
-    position: 'relative',
-  },
-  base: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100vw',
+    zIndex: 100,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: 'transparent',
-    borderBottomColor: 'rgba(255,255,255,0.3)',
+    height: '130px',
+    transition: 'all 0.2s ease-in-out',
+    borderBottomColor: 'rgba(255,255,255,0.8)',
     borderBottomWidth: '1px',
     borderBottomStyle: 'solid',
+  },
+  _Root: {
+    display: 'flex',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+  },
+  base: {
+    flexDirection: 'row',
+    height: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'end',
+    backgroundColor: 'transparent',
     animationName: NavbarTransition2,
     animationDuration: '1s',
     animationTimingFunction: 'ease',
@@ -328,19 +363,23 @@ const styles = stylex.create({
     animationTimingFunction: 'ease',
     animationFillMode: 'forwards',
   },
-  logo: {},
+  fadeOut: {
+    animationName: fadeOutFrames,
+    animationDuration: '1s',
+    animationTimingFunction: 'ease',
+    animationFillMode: 'forwards',
+  },
   navBase: {
-    display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    width: '100%',
+    paddingTop: '130px',
+    paddingRight: '1rem',
+    width: 'auto',
     height: '100%',
+    borderBottomColor: 'rgba(255,255,255,0.3)',
   },
   dividerWrapper: {
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
     display: {
       [MOBILE]: 'none',
       [DESKTOP]: 'flex',
@@ -352,7 +391,7 @@ const styles = stylex.create({
     backgroundColor: 'rgba(255,255,255,0.3)',
   },
   navItems: {
-    width: '100%',
+    width: '100sw%',
     display: {
       [MOBILE]: 'none',
       [DESKTOP]: 'flex',
@@ -360,10 +399,18 @@ const styles = stylex.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
+    borderTopColor: 'rgba(255,255,255,0.8)',
+    borderTopWidth: '1px',
+    borderTopStyle: 'solid',
+    padding: '0 3rem 6rem 3rem',
+    margin: '0 1rem .0375rem 1rem',
   },
   navItemActive: {
     backgroundColor: colorTokens.primary_red_dark2,
     color: colorTokens.white0,
+    transform: 'scale(1.1)',
+    opacity: 1,
+    transition: 'all 0.2s ease-in-out',
   },
   navItem: {
     backgroundColor: {
@@ -374,14 +421,16 @@ const styles = stylex.create({
       default: colorTokens.primary_red_dark2,
       ':hover': 'rgba(255,255,255,1)',
     },
-    fontSize: '1rem',
+    fontSize: '1.2rem',
     fontWeight: 600,
-    textTransform: 'uppercase',
-    padding: '0.1rem 1rem',
-    margin: '0 1rem',
+    padding: '.2rem 1rem',
+    transform: 'rotateX(-5deg)',
+    marginTop: '1rem',
     cursor: 'pointer',
-    borderBottomRightRadius: '5px',
-    borderBottomLeftRadius: '5px',
+    borderRadius: '3px',
+    marginRight: '1rem',
+    marginBottom: '.1rem',
+    opacity: 0.8,
   },
   hidden: {
     display: 'none',
@@ -391,6 +440,15 @@ const styles = stylex.create({
       [MOBILE]: 'flex',
       [DESKTOP]: 'none',
     },
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  displayDesktopOnly: {
+    display: {
+      [MOBILE]: 'none',
+      [DESKTOP]: 'flex',
+    },
   },
   navBurger: {
     cursor: 'pointer',
@@ -399,6 +457,9 @@ const styles = stylex.create({
     borderWidth: '0px',
     borderRadius: '0px',
     boxShadow: 'none',
+    height: '80px',
+    width: '80px',
+    marginRight: '1rem',
   },
   fullScreenNav: {
     position: 'fixed',
@@ -418,6 +479,10 @@ const styles = stylex.create({
     animationTimingFunction: 'ease',
     animationFillMode: 'forwards',
   },
+  drawerLink: {
+    margin: '0 0 0.0375rem 0',
+    padding: '.1rem 0',
+  },
   drawerNavItems: {
     width: '100%',
     height: '100%',
@@ -427,7 +492,7 @@ const styles = stylex.create({
     alignItems: 'center',
   },
   drawerNavItem: {
-    margin: '1rem',
+    padding: '1rem',
     cursor: 'pointer',
   },
   closeWrapper: {
@@ -440,6 +505,29 @@ const styles = stylex.create({
       default: 'rgba(0,0,0,0.9)',
       ':hover': 'rgba(255,255,255,1)',
     },
+  },
+  logoSpacing: {
+    marginLeft: '1rem',
+    marginRight: '1rem',
+    marginTop: '1rem',
+    marginBottom: '1rem',
+    padding: '1rem',
+  },
+  initialYFix: {
+    transform:
+      'scaleX(1.1) scaleY(1.05) rotate3d(1,1,1,-15deg) translateY(-30px) translateX(3px)',
+  },
+  fadeIn: {
+    animationName: fadeInFrames,
+    animationDuration: '1s',
+    animationTimingFunction: 'ease',
+    animationFillMode: 'forwards',
+  },
+  smallDelay: {
+    animationDelay: '.2s',
+  },
+  smallAccel: {
+    animationDelay: '-0.2s',
   },
 })
 

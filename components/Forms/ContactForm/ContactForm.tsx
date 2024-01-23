@@ -89,7 +89,7 @@ export const ContactForm = () => {
         >
           <div {...stylex.props(styles.headerWrapper)}>
             <Text variant="lg" style={styles.headerText}>
-              Contact Us
+              Interested in a quick call?
             </Text>
           </div>
           <div {...stylex.props(styles.divider)} />

@@ -13,7 +13,8 @@ export type Sizes =
 
 export type ButtonProps = {
   children?: React.ReactNode
-  style?: StyleXStyles
+  style?: StyleXStyles[] | StyleXStyles
   onClick?: () => void
   size: Sizes
+  hideMobile?: boolean
 }
