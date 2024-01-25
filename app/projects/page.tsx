@@ -1,3 +1,4 @@
+import { Flex } from '@/components/UI'
 import { Text } from '@/components/UI/Text/Text'
 import * as stylex from '@stylexjs/stylex'
 
@@ -32,16 +33,14 @@ export default function Page() {
   }
 
   return (
-    <div {...stylex.props(styles.base)}>
-      <div {...stylex.props(styles.title1)}>
-        <Text variant="xl">Projects</Text>
-      </div>
-      <div {...stylex.props(styles.imgGroup)}>
+    <Flex variant="column" justify="center" align="flex-start" style={styles.base}>
+      <Text variant="xl">Projects</Text>
+      <Flex variant="row" justify="space-evenly" align="flex-start" wrap="wrap">
         {imgSrcs.map((src, i) => {
           return <div key={i}>{Images(src)}</div>
         })}
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   )
 }
 
@@ -53,18 +52,10 @@ const DESKTOP: TDesktop = '@media (min-width: 786px)' as TDesktop
 
 const styles = stylex.create({
   base: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
     minHeight: '100vh',
     maxWidth: '1200px',
-  },
-  title1: {
-    marginTop: {
-      [MOBILE]: '150px',
-      [DESKTOP]: '250px',
-    },
+    paddingTop: '200px',
+    paddingBottom: '100px',
   },
   imgWrap: {
     display: 'flex',
@@ -83,15 +74,5 @@ const styles = stylex.create({
     objectPosition: 'center',
     boxShadow: '0 0 5px rgba(255,255,255,0.5)',
     borderRadius: '0.375rem',
-  },
-  imgGroup: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-evenly',
-    alignItems: 'flex-start',
-    width: '100%',
-    marginTop: '50px',
-    marginBottom: '50px',
   },
 })

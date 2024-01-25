@@ -1,53 +1,81 @@
 import { ContactForm } from '@/components/Forms/ContactForm/ContactForm'
 import GoogleMap from '@/components/GoogleMap/GoogleMap'
 import { Email, GoogleMaps, Phone } from '@/components/SVGs'
+import { Flex } from '@/components/UI'
 import { A } from '@/components/UI/A/A'
 import { Text } from '@/components/UI/Text/Text'
 import * as stylex from '@stylexjs/stylex'
 
 export default function Page() {
   return (
-    <div {...stylex.props(styles.base, styles.navbarMargin)}>
-      <GoogleMap style={styles.googleMap} />
-      <div {...stylex.props(styles.title1)}>
-        <Text variant="xl">Contact</Text>
-      </div>
-      <A
-        href={
-          'https://www.google.com/maps/place/1701+1st+Ave,+Silvis,+IL+61282/@41.510842,-90.4071781,17z/data=!3m1!4b1!4m6!3m5!1s0x87e23bd026ae8fa5:0x52e06dc3ce90436b!8m2!3d41.510842!4d-90.4046032!16s%2Fg%2F11p_8349tk?entry=ttu'
-        }
-        style={styles.link}
-      >
-        <GoogleMaps height="60px" width="60px" />
-        <div {...stylex.props(styles.group)}>
-          <Text variant="sm">1701 1st Ave</Text>
-          <Text variant="sm">Silvis, IL 61282</Text>
+    <div {...stylex.props(styles.base)}>
+      <GoogleMap />
+      <Flex variant="row" justify="flex-start" align="flex-end" wrap="wrap">
+        <Text style={styles.title} variant="xl">
+          Contact
+        </Text>
+        <A
+          href={
+            'https://www.google.com/maps/place/1701+1st+Ave,+Silvis,+IL+61282/@41.510842,-90.4071781,17z/data=!3m1!4b1!4m6!3m5!1s0x87e23bd026ae8fa5:0x52e06dc3ce90436b!8m2!3d41.510842!4d-90.4046032!16s%2Fg%2F11p_8349tk?entry=ttu'
+          }
+          style={styles.link}
+        >
+          <Flex variant="row" align="center">
+            <GoogleMaps height="60px" width="60px" />
+            <Flex
+              variant="column"
+              align="flex-start"
+              justify="center"
+              style={styles.group}
+            >
+              <Text variant="sm">1701 1st Ave</Text>
+              <Text variant="sm">Silvis, IL 61282</Text>
+            </Flex>
+          </Flex>
+        </A>
+        <A style={styles.link} href={'tel:3099129138'}>
+          <Phone height="60px" width="60px" />
+          <Flex
+            variant="column"
+            align="flex-start"
+            justify="center"
+            style={styles.group}
+          >
+            <Text variant="sm">309-912-9138</Text>
+          </Flex>
+        </A>
+        <A style={styles.link} href={'mailto:office@mcclintocktrkexc.com'}>
+          <Email height="60px" width="60px" />
+          <Flex
+            variant="column"
+            align="flex-start"
+            justify="center"
+            style={styles.group}
+          >
+            <Text variant="sm">office@mcclintocktrkexc.com</Text>
+          </Flex>
+        </A>
+      </Flex>
+      <Flex variant="row" justify="flex-start" align="flex-end" wrap="wrap">
+        <Text style={styles.title} variant="xl">
+          Hours
+        </Text>
+        <div {...stylex.props(styles.grid)}>
+          <Text style={styles.taCenter} variant="sm">
+            Monday - Friday
+          </Text>
+          <Text style={styles.taCenter} variant="sm">
+            7:00 AM - 4:30 PM
+          </Text>
+          <Text style={styles.taCenter} variant="sm">
+            Saturday - Sunday
+          </Text>
+          <Text style={styles.taCenter} variant="sm">
+            Closed
+          </Text>
         </div>
-      </A>
-      <A style={styles.link} href={'tel:3099129138'}>
-        <Phone height="60px" width="60px" />
-        <div {...stylex.props(styles.group)}>
-          <Text variant="sm">309-912-9138</Text>
-        </div>
-      </A>
-      <A style={styles.link} href={'mailto:office@mcclintocktrkexc.com'}>
-        <Email height="60px" width="60px" />
-        <div {...stylex.props(styles.group)}>
-          <Text variant="sm">office@mcclintocktrkexc.com</Text>
-        </div>
-      </A>
-      <div {...stylex.props(styles.title)}>
-        <Text variant="xl">Hours</Text>
-      </div>
-      <div {...stylex.props(styles.grid)}>
-        <Text variant="sm">Monday - Friday</Text>
-        <Text variant="sm">7:00 AM - 4:30 PM</Text>
-        <Text variant="sm">Saturday - Sunday</Text>
-        <Text variant="sm">Closed</Text>
-      </div>
-      <div {...stylex.props(styles.contactForm)}>
-        <ContactForm />
-      </div>
+      </Flex>
+      <ContactForm />
     </div>
   )
 }
@@ -66,43 +94,18 @@ const styles = stylex.create({
     alignItems: 'flex-start',
     minHeight: '100vh',
     maxWidth: '1200px',
-    marginTop: '200px',
+    paddingTop: '200px',
   },
-  navbarMargin: {
-    marginTop: {
-      [MOBILE]: '150px',
-      [DESKTOP]: '230px',
-    },
-  },
-
-  googleMap: {
-    width: '100%',
-    marginBottom: '40px',
-    borderRadius: '.0375rem',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title1: {
-    marginTop: '40px',
-    marginBottom: '40px',
+  taCenter: {
+    textAlign: 'center',
   },
   title: {
-    marginBottom: '40px',
+    padding: '3rem 100% 1rem 1rem',
   },
   group: {
     cursor: 'pointer',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
   },
   link: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    minWidth: '300px',
     borderColor: 'rgba(255,255,255,0.5)',
     borderWidth: '1px',
     borderStyle: 'solid',
@@ -118,6 +121,7 @@ const styles = stylex.create({
     gridTemplateAreas: '"a b" "c d"',
     gridGap: '10px',
     marginBottom: '20px',
+    paddingLeft: '10px',
   },
   contactForm: {
     marginTop: '100px',

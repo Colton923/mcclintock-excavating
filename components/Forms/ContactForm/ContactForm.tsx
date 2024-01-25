@@ -141,6 +141,8 @@ const styles = stylex.create({
     justifyContent: 'center',
     width: '100%',
     minWidth: '350px',
+    marginTop: '1rem',
+    marginBottom: '1rem',
   },
   headerWrapper: {
     display: 'flex',

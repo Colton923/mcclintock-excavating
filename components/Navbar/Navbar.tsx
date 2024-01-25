@@ -2,14 +2,15 @@
 import * as stylex from '@stylexjs/stylex'
 import { useState, useEffect } from 'react'
 import { colorTokens } from '../../styles/colorTokens.stylex'
-import { Burger, Excavator, ExcavatorLogo } from '../SVGs'
+import { Burger, ExcavatorLogo } from '../SVGs'
 import { Button } from '../UI/Button/Button'
 import { Text } from '../UI/Text/Text'
 import { usePathname } from 'next/navigation'
 import { A } from '../UI/A/A'
 import NameTag from './_components/NameTag'
-import { hideDesktopTheme, hideMobileTheme, maxHeightNavbar } from '../UI/theme'
-import { mobileDisplays } from '../UI/root.stylex'
+import { Flex } from '../UI'
+import { routes } from './routes'
+import type { TRoute } from './routes'
 
 const Navbar = () => {
   const [collapsed, setCollapsed] = useState(false)
@@ -17,6 +18,28 @@ const Navbar = () => {
   const [mobileDrawer, setMobileDrawer] = useState(false)
   const [overlay, setOverlay] = useState(false)
   const pathname = usePathname()
+
+  const disableScroll = () => {
+    document.body.style.overflow = 'hidden'
+  }
+
+  const enableScroll = () => {
+    document.body.style.overflow = 'auto'
+  }
+
+  const handleCollapse = () => {
+    if (mobileDrawer) {
+      setOverlay(true)
+      enableScroll()
+      setTimeout(() => {
+        setMobileDrawer(false)
+      }, 1000)
+    } else {
+      disableScroll()
+      setMobileDrawer(true)
+      setOverlay(false)
+    }
+  }
 
   useEffect(() => {
     window.scrollTo({
@@ -37,18 +60,6 @@ const Navbar = () => {
     }
   }, [])
 
-  const handleCollapse = () => {
-    if (mobileDrawer) {
-      setOverlay(true)
-      setTimeout(() => {
-        setMobileDrawer(false)
-      }, 1000)
-    } else {
-      setMobileDrawer(true)
-      setOverlay(false)
-    }
-  }
-
   useEffect(() => {
     if (scrollY === 0) {
       setCollapsed(false)
@@ -57,29 +68,37 @@ const Navbar = () => {
     }
   }, [scrollY])
 
-  return (
-    <div
-      {...stylex.props(
-        collapsed && styles.slideOut,
-        styles.navbar,
-        !collapsed && styles.slideIn,
-        !collapsed && styles.fadeIn,
-        collapsed && styles.smallDelay
-      )}
-    >
-      {/* Name Tag Icon */}
-      <NameTag name={'McClintock Trucking & Excavating'} />
-      {/* Permanent logo top right */}
+  const DrawerItem = ({ href, label }: TRoute) => {
+    return (
+      <A href={href} style={styles.drawerLink}>
+        <Button size={'lg'} style={styles.drawerNavItem} onClick={handleCollapse}>
+          <Text variant="md" uppercase>
+            {label}
+          </Text>
+        </Button>
+      </A>
+    )
+  }
 
-      <A
-        href="/"
-        style={[
-          styles._Root,
-          collapsed && styles.fadeOut,
-          styles.initialYFix,
-          collapsed && styles.smallAccel,
-        ]}
-      >
+  const DesktopNavItems = ({ href, label }: TRoute) => {
+    return (
+      <A href={href}>
+        <span
+          {...stylex.props(
+            styles.navItem,
+            pathname === href && styles.navItemActive
+          )}
+        >
+          {label}
+        </span>
+      </A>
+    )
+  }
+
+  return (
+    <div {...stylex.props(styles.root, collapsed && styles.slideOut)}>
+      <NameTag name={'McClintock Trucking & Excavating'} />
+      <A href="/" style={styles.initialYFix}>
         <ExcavatorLogo
           height="30%"
           width="30%"
@@ -87,71 +106,20 @@ const Navbar = () => {
           stroke={'rgba(255,255,255,0.8)'}
         />
       </A>
-      {/* Navbar elemnts */}
-      <div {...stylex.props(collapsed && styles.slideOut)}>
-        <div {...stylex.props(styles.navBase, styles.displayDesktopOnly)}>
-          <div {...stylex.props(styles.navItems)}>
-            <A href="/">
-              <span
-                {...stylex.props(
-                  styles.navItem,
-                  pathname === '/' && styles.navItemActive
-                )}
-              >
-                Home
-              </span>
-            </A>
-            <A href="/about">
-              <span
-                {...stylex.props(
-                  styles.navItem,
-                  pathname.includes('/about') && styles.navItemActive
-                )}
-              >
-                About
-              </span>
-            </A>
-            <A href="/projects">
-              <span
-                {...stylex.props(
-                  styles.navItem,
-                  pathname.includes('/projects') && styles.navItemActive
-                )}
-              >
-                Projects
-              </span>
-            </A>
-            <A href="/careers">
-              <span
-                {...stylex.props(
-                  styles.navItem,
-                  pathname.includes('/careers') && styles.navItemActive
-                )}
-              >
-                Careers
-              </span>
-            </A>
-            <A href="/contact">
-              <span
-                {...stylex.props(
-                  styles.navItem,
-                  pathname.includes('/contact') && styles.navItemActive
-                )}
-              >
-                Contact
-              </span>
-            </A>
-          </div>
-        </div>
+      <div {...stylex.props(styles.displayDesktopOnly)}>
+        <Flex
+          variant="row"
+          justify="flex-end"
+          align="center"
+          wrap="wrap"
+          style={styles.navItems}
+        >
+          {routes.map((route, index) => {
+            return <DesktopNavItems key={route.href} {...route} />
+          })}
+        </Flex>
       </div>
-
-      <div
-        {...stylex.props(
-          hideDesktopTheme,
-          collapsed && styles.slideOut,
-          styles.displayMobileOnly
-        )}
-      >
+      <div {...stylex.props(styles.displayMobileOnly)}>
         <Button
           onClick={handleCollapse}
           size={'md-compact'}
@@ -161,18 +129,14 @@ const Navbar = () => {
           <Burger stroke={'rgba(255,255,255,1'} width="100%" height="100%" />
         </Button>
       </div>
-
-      {/* Mobile Navbar only */}
       <div
         {...stylex.props(
           mobileDrawer && styles.fullScreenNav,
-          styles.displayMobileOnly,
           !mobileDrawer && styles.hidden,
-          overlay && styles.slideOut,
-          maxHeightNavbar
+          overlay && styles.slideOut
         )}
       >
-        <div {...stylex.props(styles.drawerNavItems)}>
+        <Flex variant="column" justify="center" align="center">
           <div {...stylex.props(styles.closeWrapper)}>
             <Button onClick={handleCollapse} size={'xs-compact'}>
               <svg
@@ -199,73 +163,10 @@ const Navbar = () => {
               </svg>
             </Button>
           </div>
-          <A href="/" style={styles.drawerLink}>
-            <Button
-              size={'lg'}
-              style={styles.drawerNavItem}
-              onClick={handleCollapse}
-            >
-              <Text variant="md" uppercase>
-                Home
-              </Text>
-            </Button>
-          </A>
-          <A style={styles.drawerLink} href="/about">
-            <Button
-              size={'lg'}
-              style={styles.drawerNavItem}
-              onClick={handleCollapse}
-            >
-              <Text variant="md" uppercase>
-                About
-              </Text>
-            </Button>
-          </A>
-          <A style={styles.drawerLink} href="/projects">
-            <Button
-              size={'lg'}
-              style={styles.drawerNavItem}
-              onClick={handleCollapse}
-            >
-              <Text variant="md" uppercase>
-                Projects
-              </Text>
-            </Button>
-          </A>
-          <A style={styles.drawerLink} href="/services">
-            <Button
-              size={'lg'}
-              style={styles.drawerNavItem}
-              onClick={handleCollapse}
-            >
-              <Text variant="md" uppercase>
-                Services
-              </Text>
-            </Button>
-          </A>
-          <A style={styles.drawerLink} href="/careers">
-            <Button
-              size={'lg'}
-              style={styles.drawerNavItem}
-              onClick={handleCollapse}
-            >
-              <Text variant="md" uppercase>
-                Careers
-              </Text>
-            </Button>
-          </A>
-          <A href="/contact">
-            <Button
-              size={'lg'}
-              style={styles.drawerNavItem}
-              onClick={handleCollapse}
-            >
-              <Text variant="md" uppercase>
-                Contact
-              </Text>
-            </Button>
-          </A>
-        </div>
+          {routes.map((route) => {
+            return <DrawerItem key={route.href} {...route} />
+          })}
+        </Flex>
       </div>
     </div>
   )
@@ -306,6 +207,7 @@ const fadeOutFrames = stylex.keyframes({
     display: 'none',
   },
 })
+
 const fadeInFrames = stylex.keyframes({
   '0%': {
     opacity: 0,
@@ -317,93 +219,27 @@ const fadeInFrames = stylex.keyframes({
 })
 
 const styles = stylex.create({
-  navbar: {
+  root: {
+    zIndex: 100,
     position: 'fixed',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    display: 'flex',
+    minWidth: '100vw',
+    height: '130px',
     top: 0,
     left: 0,
-    width: '100%',
-    zIndex: 100,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
     backgroundColor: 'transparent',
-    height: '130px',
-    transition: 'all 0.2s ease-in-out',
     borderBottomColor: 'rgba(255,255,255,0.8)',
     borderBottomWidth: '1px',
     borderBottomStyle: 'solid',
   },
-  _Root: {
-    display: 'flex',
-    position: 'fixed',
-    top: 0,
-    left: 0,
-  },
-  base: {
-    flexDirection: 'row',
-    height: '100%',
-    justifyContent: 'flex-end',
-    alignItems: 'end',
-    backgroundColor: 'transparent',
-    animationName: NavbarTransition2,
-    animationDuration: '1s',
-    animationTimingFunction: 'ease',
-    animationFillMode: 'forwards',
-  },
-  slideIn: {
-    animationName: NavbarTransition2,
-    animationDuration: '1s',
-    animationTimingFunction: 'ease',
-    animationFillMode: 'forwards',
-  },
-  slideOut: {
-    animationName: NavbarTransition,
-    animationDuration: '2s',
-    animationTimingFunction: 'ease',
-    animationFillMode: 'forwards',
-  },
-  fadeOut: {
-    animationName: fadeOutFrames,
-    animationDuration: '1s',
-    animationTimingFunction: 'ease',
-    animationFillMode: 'forwards',
-  },
-  navBase: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    paddingTop: '130px',
-    paddingRight: '1rem',
-    width: 'auto',
-    height: '100%',
-    borderBottomColor: 'rgba(255,255,255,0.3)',
-  },
-  dividerWrapper: {
-    display: {
-      [MOBILE]: 'none',
-      [DESKTOP]: 'flex',
-    },
-  },
-  divider: {
-    width: '100%',
-    height: '1px',
-    backgroundColor: 'rgba(255,255,255,0.3)',
-  },
   navItems: {
-    width: '100sw%',
-    display: {
-      [MOBILE]: 'none',
-      [DESKTOP]: 'flex',
-    },
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
     borderTopColor: 'rgba(255,255,255,0.8)',
     borderTopWidth: '1px',
     borderTopStyle: 'solid',
-    padding: '0 3rem 6rem 3rem',
     margin: '0 1rem .0375rem 1rem',
+    maxWidth: '80vw',
   },
   navItemActive: {
     backgroundColor: colorTokens.primary_red_dark2,
@@ -431,24 +267,6 @@ const styles = stylex.create({
     marginRight: '1rem',
     marginBottom: '.1rem',
     opacity: 0.8,
-  },
-  hidden: {
-    display: 'none',
-  },
-  displayMobileOnly: {
-    display: {
-      [MOBILE]: 'flex',
-      [DESKTOP]: 'none',
-    },
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  displayDesktopOnly: {
-    display: {
-      [MOBILE]: 'none',
-      [DESKTOP]: 'flex',
-    },
   },
   navBurger: {
     cursor: 'pointer',
@@ -478,22 +296,16 @@ const styles = stylex.create({
     animationDuration: '1s',
     animationTimingFunction: 'ease',
     animationFillMode: 'forwards',
+    paddingTop: '130px',
   },
   drawerLink: {
     margin: '0 0 0.0375rem 0',
     padding: '.1rem 0',
   },
-  drawerNavItems: {
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   drawerNavItem: {
     padding: '1rem',
     cursor: 'pointer',
+    minWidth: '200px',
   },
   closeWrapper: {
     position: 'absolute',
@@ -506,16 +318,8 @@ const styles = stylex.create({
       ':hover': 'rgba(255,255,255,1)',
     },
   },
-  logoSpacing: {
-    marginLeft: '1rem',
-    marginRight: '1rem',
-    marginTop: '1rem',
-    marginBottom: '1rem',
-    padding: '1rem',
-  },
   initialYFix: {
-    transform:
-      'scaleX(1.1) scaleY(1.05) rotate3d(1,1,1,-15deg) translateY(-30px) translateX(3px)',
+    transform: 'scaleX(1.1) scaleY(1.05) rotate3d(1,1,1,-15deg) translateX(3px)',
   },
   fadeIn: {
     animationName: fadeInFrames,
@@ -523,11 +327,41 @@ const styles = stylex.create({
     animationTimingFunction: 'ease',
     animationFillMode: 'forwards',
   },
-  smallDelay: {
-    animationDelay: '.2s',
+  fadeOut: {
+    animationName: fadeOutFrames,
+    animationDuration: '1s',
+    animationTimingFunction: 'ease',
+    animationFillMode: 'forwards',
   },
-  smallAccel: {
-    animationDelay: '-0.2s',
+  slideIn: {
+    animationName: NavbarTransition2,
+    animationDuration: '1s',
+    animationTimingFunction: 'ease',
+    animationFillMode: 'forwards',
+  },
+  slideOut: {
+    animationName: NavbarTransition,
+    animationDuration: '2s',
+    animationTimingFunction: 'ease',
+    animationFillMode: 'forwards',
+  },
+  delayAnimation: (index: number) => ({
+    animationDelay: `${index * 0.1}s`,
+  }),
+  hidden: {
+    display: 'none',
+  },
+  displayMobileOnly: {
+    display: {
+      [MOBILE]: 'flex',
+      [DESKTOP]: 'none',
+    },
+  },
+  displayDesktopOnly: {
+    display: {
+      [MOBILE]: 'none',
+      [DESKTOP]: 'flex',
+    },
   },
 })
 

@@ -4,13 +4,12 @@ import * as stylex from '@stylexjs/stylex'
 import randy from '@/public/images/randy.jpg'
 import { colorTokens } from '../../styles/colorTokens.stylex'
 import { ExcavatorLogo } from '@/components/SVGs'
+import { Flex } from '@/components/UI'
 
 export default function Page() {
   return (
-    <div {...stylex.props(styles.base)}>
-      <div {...stylex.props(styles.title1)}>
-        <Text variant="xl">About Us</Text>
-      </div>
+    <Flex variant="column" justify="center" align="flex-start" style={styles.base}>
+      <Text variant="xl">About Us</Text>
       <Text
         style={styles.textBlock}
         variant="md"
@@ -35,13 +34,19 @@ export default function Page() {
           fill={colorTokens.primary_red_dark3}
         />
       </div>
-      <div {...stylex.props(styles.title)}>
-        <Text variant="xl">The Team</Text>
-      </div>
+      <Text style={styles.title} variant="xl">
+        The Team
+      </Text>
 
-      <div {...stylex.props(styles.cards)}>
+      <Flex
+        wrap="wrap"
+        variant="row"
+        justify="center"
+        align="center"
+        style={styles.cards}
+      >
         <Card style={styles.card}>
-          <div {...stylex.props(styles.flex)}>
+          <Flex variant="column" justify="center" align="center">
             <Text variant="md">Randy McClintock</Text>
             <img
               {...stylex.props(styles.img)}
@@ -51,10 +56,10 @@ export default function Page() {
               alt="owner"
             />
             <Text variant="sm">Owner</Text>
-          </div>
+          </Flex>
         </Card>
         <Card style={styles.card}>
-          <div {...stylex.props(styles.flex)}>
+          <Flex variant="column" justify="center" align="center">
             <Text variant="md">{`John D'Amico`}</Text>
             <div {...stylex.props(styles.imagePlaceholder)}>
               <Text style={styles.imagePlaceholderText} variant="sm">
@@ -62,10 +67,10 @@ export default function Page() {
               </Text>
             </div>
             <Text variant="sm">Estimator</Text>
-          </div>
+          </Flex>
         </Card>
         <Card style={styles.card}>
-          <div {...stylex.props(styles.flex)}>
+          <Flex variant="column" justify="center" align="center">
             <Text variant="md">Amy Peel</Text>
             <div {...stylex.props(styles.imagePlaceholder)}>
               <Text style={styles.imagePlaceholderText} variant="sm">
@@ -73,10 +78,10 @@ export default function Page() {
               </Text>
             </div>
             <Text variant="sm">Controller</Text>
-          </div>
+          </Flex>
         </Card>
         <Card style={styles.card}>
-          <div {...stylex.props(styles.flex)}>
+          <Flex variant="column" justify="center" align="center">
             <Text variant="md">Kayla Rockwell</Text>
             <div {...stylex.props(styles.imagePlaceholder)}>
               <Text style={styles.imagePlaceholderText} variant="sm">
@@ -84,10 +89,10 @@ export default function Page() {
               </Text>
             </div>
             <Text variant="sm">Office Manager</Text>
-          </div>
+          </Flex>
         </Card>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   )
 }
 
@@ -110,6 +115,10 @@ const MOBILE: TMobile = '@media (max-width: 786px)' as TMobile
 const DESKTOP: TDesktop = '@media (min-width: 786px)' as TDesktop
 
 const styles = stylex.create({
+  base: {
+    paddingTop: '200px',
+    paddingBottom: '100px',
+  },
   img: {
     objectFit: 'cover',
     objectPosition: 'center',
@@ -122,28 +131,8 @@ const styles = stylex.create({
     paddingTop: '10px',
     paddingBottom: '10px',
   },
-  base: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    minHeight: '100vh',
-  },
-  title1: {
-    marginTop: {
-      [MOBILE]: '150px',
-      [DESKTOP]: '250px',
-    },
-    marginBottom: '40px',
-  },
   title: {
     marginBottom: '40px',
-  },
-  flex: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   textBlock: {
     marginBottom: '40px',
@@ -151,11 +140,6 @@ const styles = stylex.create({
     padding: '0 20px',
   },
   cards: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
     maxWidth: '800px',
     width: '100%',
   },

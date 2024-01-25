@@ -1,3 +1,5 @@
 export { Text } from './Text/Text'
 export { Button } from './Button/Button'
 export { A } from './A/A'
+export { Center } from './Center/Center'
+export { Flex } from './Flex/Flex'
